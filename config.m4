@@ -44,21 +44,9 @@ return (int)(ONIG_ENCODING_KOI8 + 1);
   ])
   LDFLAGS=$save_old_LDFLAGS
 
-  PHP_NEW_EXTENSION(onig, $PHP_ONIG_SOURCES, $ext_shared,,-DONIG_ESCAPE_UCHAR_COLLISION=1 -DUChar=OnigUChar)
+  PHP_NEW_EXTENSION(onig, [onig.c], $ext_shared,,-DONIG_ESCAPE_UCHAR_COLLISION=1 -DUChar=OnigUChar)
   PHP_SUBST(ONIG_SHARED_LIBADD)
 
-  if test "$ext_shared" = "no"; then
-    PHP_ADD_SOURCES(PHP_EXT_DIR(onig), [onig.c])
-    out="php_config.h"
-  else
-    PHP_ADD_SOURCES_X(PHP_EXT_DIR(onig), [onig.c],,shared_objects_onig,yes)
-    if test -f "$ext_builddir/config.h.in"; then
-      out="$abs_builddir/config.h"
-    else
-      out="php_config.h"
-    fi
-  fi
-  
   PHP_INSTALL_HEADERS([ext/onig], [php_onig.h])
 fi
 
